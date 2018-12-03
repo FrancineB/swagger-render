@@ -1,0 +1,173 @@
+<body data-spy="scroll" data-target="#side-nav">
+{% include 'header.html' %}
+    <div class="container-fluid">
+
+        <br>
+        <div class="row">
+            <div class="col-md-3" id="side-nav">
+                <input id="search" type="text" class="form-control" placeholder="Search">
+                {% set count_method_before = [1] %}
+                {% for tag in _tags %}
+                {% set count_method = [1] %}
+                <ul class="nav nav-list">
+                    <a class="group_link" data-toggle="collapse"  href="#tag_{{tag}}">{{ tag }}</a>
+
+                    <!--<span class="badge badge-secondary">{{count_method}}</span>-->
+                    <div id="tag_{{tag}}" class="multi-collapse_{{tag}} panel-collapse collapse">
+                        <ul class="list-group nav">
+                        {% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter %}
+                            {{ count_method.append(count_method.pop() + 1) }}
+                            {% set boucle = loop.index %}
+
+                            {{ count_method_before.append( loop.index ) }}
+                            <li class="nav-item {{method_name |lower}}">
+                                <a class="nav-link" href="#{{(method_name, path_name) |sane}}">
+                                    <strong>{{method_name | upper}}</strong>
+                                    {{path_name}}
+                                </a>
+                            </li>
+
+                         {% endfor %}
+                        </ul>
+                    </div>
+                    <a data-toggle="collapse" data-target=".multi-collapse_{{tag}}" aria-expanded="false" class="badge btn-danger" >{{count_method |join(' ')}}</a>
+                </ul>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-9">
+                <div id="info" class="jumbotron">
+                    <h1>{{ info.title }} {{ info.version }}</h1>
+
+                    {% if info.description %}
+                    {{ info.description |md }}
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                {% set count = 0 %}
+                <div class="group" id="accord1">
+                {% for tag in _tags -%}
+                <div class="card">
+                    <div class="card-header">
+                        <h5>
+                            <a data-toggle="collapse" href="#tag{{count}}_{{tag}}" aria-expanded="true">
+                                {{tag }}
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div id="tag{{count}}_{{tag}}" class="multi-collapse_{{tag}} card-body collapse in">
+                    {% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter -%}
+                        <div class="card-body card method {{method_name}}">
+
+                            <div class="card-header {{method_name}}">
+                                <a name="{{(method_name, path_name) | sane}}">
+                                    <h3>
+                                        <strong>{{ method_name | upper }}</strong>
+                                        {{ path_name }}
+                                        <span class="pull-right">
+                        {{ method.summary }}
+                    </span>
+                                    </h3>
+                                </a>
+                            </div>
+
+                            <div class="card-block"
+                                 id="{{(method_name, path_name, 'd') | sane}}">
+                                {% if method.description %}
+                                <h3>Description</h3>
+                                {{ method.description | md }}
+                                {% endif %}
+
+                                {% if method.tags and not _group_by_tags %}
+                                <h3>Tags</h3>
+                                <ul>
+                                    {% for tag in method.tags %}
+                                    <li>{{tag}}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
+                                {% if method.parameters %}
+                                <h3>Parameters</h3>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Located in</th>
+                                        <th>Description</th>
+                                        <th>Required</th>
+                                        <th>Schema</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for parameter in method.parameters %}
+                                    <tr>
+                                        <td>{{ parameter.name }}</td>
+                                        <td>{{ parameter.in }}</td>
+                                        <td>{{ parameter.description}}</td>
+                                        <td>{{ parameter.required }}</td>
+                                        <td>{{ parameter | schema | render}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
+
+                                <h3>Responses</h3>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Description</th>
+                                        <th>Schema</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for code, response in method.responses.items() %}
+                                    <tr>
+                                        <td>{{ code }}</td>
+                                        <td>{{ response.description }}</td>
+                                        <td>{{ response | schema | render}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    {% set count = count + 1 %}
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+
+                <footer class="footer">
+                    Generated by
+                    <a>Swagger-Render</a> {{__version__}}<br>
+                    {{__time__}}
+                </footer>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/joshaven/string_score/3b51216ccaa15a795df27502df5e8fbca554c0ab/string_score.min.js"></script>
+    <script>
+     $("#search").on("input", function(e) {
+         var text = e.target.value;
+         $(".nav-item").map(function(i, el) {
+             var cmp = $(el).children()[0].innerText;
+             if(cmp.score(text) > 0 || text.length == 0) {
+                 $(el).show();
+             } else {
+                 $(el).hide();
+             }
+         });
+     });
+    </script>
+</body>
