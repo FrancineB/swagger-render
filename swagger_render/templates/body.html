@@ -9,28 +9,48 @@
                 {% set count_method_before = [1] %}
                 {% for tag in _tags %}
                 {% set count_method = [1] %}
-                <ul class="nav nav-list">
-                    <a class="group_link" data-toggle="collapse"  href="#tag_{{tag}}">{{ tag }}</a>
+                <ul class="nav nav-pills nav-stacked" id="accordion1">
+                    <!--<li class="panel"><a class="group_link" data-toggle="collapse"  href="#tag_{{tag}}">{{ tag }}</a></li>-->
 
-                    <!--<span class="badge badge-secondary">{{count_method}}</span>-->
-                    <div id="tag_{{tag}}" class="multi-collapse_{{tag}} panel-collapse collapse">
-                        <ul class="list-group nav">
-                        {% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter %}
-                            {{ count_method.append(count_method.pop() + 1) }}
-                            {% set boucle = loop.index %}
+                    <!--&lt;!&ndash;<span class="badge badge-secondary">{{count_method}}</span>&ndash;&gt;-->
+                    <!--<div id="tag_{{tag}}" class="multi-collapse_{{tag}} panel-collapse collapse">-->
+                        <!--<ul class="list-group nav">-->
+                        <!--{% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter %}-->
+                            <!--{{ count_method.append(count_method.pop() + 1) }}-->
+                            <!--{% set boucle = loop.index %}-->
 
-                            {{ count_method_before.append( loop.index ) }}
-                            <li class="nav-item {{method_name |lower}}">
+                            <!--{{ count_method_before.append( loop.index ) }}-->
+                            <!--<li class="list-group-item nav-item {{method_name |lower}}">-->
+                                <!--<a class="nav-link" href="#{{(method_name, path_name) |sane}}">-->
+                                    <!--<strong>{{method_name | upper}}</strong>-->
+                                    <!--{{path_name}}-->
+                                <!--</a>-->
+                            <!--</li>-->
+
+                         <!--{% endfor %}-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <li class="panel">
+                        <a data-toggle="collapse" data-target=".multi-collapse_{{tag}}" href="#tag_{{tag}}" data-parent="#accordion1" data-parent="#collapse11" id="section4">{{ tag }} <span class="badge">{{count_method |join(' ')}}</span><span class="caret"></span></a>
+
+                        <ul id="tag_{{tag}}" class="collapse multi-collapse_{{tag}}">
+                            {% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter %}
+                            <!--{{ count_method.append(count_method.pop() + 1) }}-->
+                            <!--{% set boucle = loop.index %}-->
+                            <br>
+                            <!--{{ count_method_before.append( loop.index ) }}-->
+                            <li class="list-group-item nav-item {{method_name |lower}}">
                                 <a class="nav-link" href="#{{(method_name, path_name) |sane}}">
                                     <strong>{{method_name | upper}}</strong>
                                     {{path_name}}
                                 </a>
                             </li>
-
-                         {% endfor %}
+                            {% endfor %}
                         </ul>
-                    </div>
-                    <a data-toggle="collapse" data-target=".multi-collapse_{{tag}}" aria-expanded="false" class="badge btn-danger" >{{count_method |join(' ')}}</a>
+
+                    </li>
+
+                    <!--<a data-toggle="collapse" data-target=".multi-collapse_{{tag}}" aria-expanded="false" class="badge btn-danger" >{{count_method |join(' ')}}</a>-->
                 </ul>
                 {% endfor %}
             </div>
@@ -58,7 +78,7 @@
                         </h5>
                     </div>
 
-                    <div id="tag{{count}}_{{tag}}" class="multi-collapse_{{tag}} card-body collapse in">
+                    <div id="tag{{count}}_{{tag}}" class="multi-collapse_{{tag}} card-body collapse">
                     {% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter -%}
                         <div class="card-body card method {{method_name}}">
 
@@ -154,7 +174,7 @@
         </div>
 
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
     <script src="https://cdn.rawgit.com/joshaven/string_score/3b51216ccaa15a795df27502df5e8fbca554c0ab/string_score.min.js"></script>
     <script>
