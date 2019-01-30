@@ -31,7 +31,7 @@
                         <!--</ul>-->
                     <!--</div>-->
                     <li class="panel">
-                        <a data-toggle="collapse" data-target=".multi-collapse_{{tag}}" href="#tag_{{tag}}" data-parent="#accordion1" data-parent="#collapse11" id="section4">{{ tag }} <span class="badge">{{count_method |join(' ')}}</span><span class="caret"></span></a>
+                        <a data-toggle="collapse" data-target=".multi-collapse_{{tag}}" href="#tag_{{tag}}" data-parent="#accordion1" data-parent="#collapse11" id="section4">{{ tag }} <!-- <span class="badge">{{count_method |join(' ')}}</span> --> <span class="caret"></span></a>
 
                         <ul id="tag_{{tag}}" class="collapse multi-collapse_{{tag}}">
                             {% for path_name, method_name, method in (paths, tag, _group_by_tags) | filter %}
@@ -56,6 +56,10 @@
             </div>
 
             <div class="col-md-9">
+                <div class="breadcrumb">
+                    <div class="item"><a href="../../../../../guide/services/index.html">Aareon Digital Platform / List of services / </a></div>
+                </div>
+
                 <div id="info" class="jumbotron">
                     <h1>{{ info.title }} {{ info.version }}</h1>
 

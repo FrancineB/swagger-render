@@ -7,10 +7,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
-    <link rel="icon" href="../../../_static/images/favicon.ico" />
-    <link rel="shortcut icon" href="../../../_static/images/favicon.ico"/>
+    <link rel="icon" href="../../../../../_static/images/favicon.ico" />
+    <link rel="shortcut icon" href="../../../../../_static/images/favicon.ico"/>
     
-    <link rel="stylesheet" href="../../../_static/css/core.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/css/core.css" type="text/css" />
     
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
@@ -61,14 +61,26 @@
             var checker=getCookie(c_name);
             return (checker!=null && checker!="") ? true : false;
         }
+
+        $('.items a').on('click', function() {
+            var $this = $(this),
+                $bc = $('<div class="item"></div>');
+
+            $this.parents('li').each(function(n, li) {
+                var $a = $(li).children('a').clone();
+                $bc.prepend(' / ', $a);
+            });
+            $('.breadcrumb').html( $bc.prepend('<a href="../../../../../guide/services/index.html">Aareon Digital Platform / List of services / </a>') );
+            return false;
+        })
     </script> 
       <!--  <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>  -->
-        <script type="text/javascript" src="../../../_static/js/core.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
+        <script type="text/javascript" src="../../../../../_static/js/core.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
     <link rel="top" title="Aareon Digital Platform" href="overview.html" />
 
     <!--<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
@@ -79,7 +91,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>-->
     <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
-    <link rel="stylesheet" href="../../../_static/css/core.css" type="text/css">
+    <link rel="stylesheet" href="../../../../../_static/css/core.css" type="text/css">
     <style>
      body {
          font-size: 14px;
