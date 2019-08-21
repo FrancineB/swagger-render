@@ -143,7 +143,7 @@ def get_tags(data):
 
 def render(env, yaml_path, out):
     with open(yaml_path, "r") as fp:
-        data = yaml.load(fp.read())
+        data = yaml.load(fp.read(), Loader=yaml.FullLoader)
     data = resolve(data, data)
     make_logical(data)
     template = env.get_template("page.html")
